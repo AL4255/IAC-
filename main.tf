@@ -1,3 +1,5 @@
+
+# will go through and comment on what this is doing, right now its creating resources in azure,vm,nsg,subnet, etc
 terraform {
   required_providers {
     azurerm = {
