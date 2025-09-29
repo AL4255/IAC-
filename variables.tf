@@ -1,4 +1,4 @@
-
+# this is a varibles.tf for my main.tf to follow 
 variable "location" {
   description = "Azure region"
   type        = string
