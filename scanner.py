@@ -28,3 +28,34 @@ class VMSecurityScanner:
     def scan_vm_security(self, resource_group, vm_name):
         results = scanner.scan_vm_security("rg-name", 'vm0name')
 
+
+          results = {
+            "Vm_name": vm_name,
+            "security_score": 0, 
+            "max_score": 100,
+            "checks": []
+        }
+
+        try:
+            vm = self.compute_client.virtual_machineget(
+            resource_group,
+            )
+
+        except Exception as e:
+            print(f"Error: Could not retrieve VM: {e}")
+            return results 
+
+    if (hasattr(vm,os_profile, 'linux_configuration') and 
+        vm.os_profile.linux_configuration and 
+        vm.os_profile.linux_configuration.disable_password_authentication)
+
+        
+
+        results["checks"].append({
+            "check": "Password Authentication",
+            "status": "Pass",
+            "details": "Password disabled -SSH keys only",
+            "points": 25
+        })
+
+
