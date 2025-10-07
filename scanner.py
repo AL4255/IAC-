@@ -17,7 +17,7 @@ from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.compute import ComputeManagemetClient 
 
-
+#logic around creating the scanner 
 class VMSecurityScanner:
     def __init__(self, subscription_id):
         self.subscription_id = subscription_id
