@@ -15,7 +15,7 @@ import subprocess
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.compute import ComputeManagemetClient 
+from azure.mgmt.compute import ComputeManagementClient 
 
 #logic around creating the scanner 
 class VMSecurityScanner:
@@ -111,7 +111,7 @@ class VMSecurityScanner:
     def generate_report(self, results):
         ""'Print formatted security report"""
         
-        print("\n" * "="*60)
+        print("\n" + "="*60)
 
         print(" Security compliance report")
 
