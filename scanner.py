@@ -40,7 +40,7 @@ class VMSecurityScanner:
             "max_score": 100,
             "checks": []
         }
-
+#get vm details 
         try:
             vm = self.compute_client.virtual_machineget(
             resource_group,
