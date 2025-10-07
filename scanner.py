@@ -1,3 +1,6 @@
+
+
+# this is a working proto, i need to add more to it
 #1/bin/env python3 
 
 
