@@ -2,9 +2,4 @@
 
 
 #!/bin/bash
-     set -e
-     echo "Running Terraform apply..."
-     terraform apply -auto-approve
-     echo "Terraform apply completed successfully!"
-     echo "Running scanner.py..."
-     python scanner.py
+   
