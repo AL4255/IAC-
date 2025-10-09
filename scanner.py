@@ -2,7 +2,7 @@
 
 
 """
-    Secuirty scanner to validate VM secuirty compliance 
+    Security scanner to validate VM secuirty compliance 
 """
 
 
