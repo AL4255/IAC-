@@ -133,7 +133,7 @@ class VMSecurityScanner:
         print(f"Overall Status: {status}")
         print(f"Compliance: {score_pct:.1f}")
 
-        print(f"\nDetailed Resultts:")
+        print(f"\nDetailed Results:")
         for check in results['checks']:
             print(f" {check['check']} {check['check']}")
             print(f" {check['details']} ({check['points']} points)")
