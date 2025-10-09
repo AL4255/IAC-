@@ -26,7 +26,7 @@ class VMSecurityScanner:
 
 
     def scan_vm_security(self, resource_group, vm_name):
-        """Run comprehensive secuirty check on vm"""
+        """Run comprehensive security check on vm"""
         print(f"Scanning {vm_name} for security compliance....\n")
 
 
