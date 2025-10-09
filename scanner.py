@@ -1,6 +1,3 @@
-
-
-# this is a working proto, i need to add more to it
 #1/bin/env python3 
 
 
@@ -17,33 +14,33 @@ from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.compute import ComputeManagementClient 
 
-#logic around creating the scanner 
+
 class VMSecurityScanner:
     def __init__(self, subscription_id):
         self.subscription_id = subscription_id
-        self.crednetial = DefaultAzureCrednetial()
+        self.credential = DefaultAzureCredential()
         self.compute_client = ComputeManagementClient(
             self.credential,
             subscription_id
         )
 
-    # main method: perform all security checks 
+
     def scan_vm_security(self, resource_group, vm_name):
-        ""Run comprehensive secuirty check on vm""
+        """Run comprehensive secuirty check on vm"""
         print(f"Scanning {vm_name} for security compliance....\n")
 
 
 
         results = {
-            "Vm_name": vm_name,
+            "vm_name": vm_name,
             "security_score": 0, 
             "max_score": 100,
             "checks": []
         }
-#get vm details 
+
         try:
-            vm = self.compute_client.virtual_machineget(
-            resource_group,
+            vm = self.compute_client.virtual_machines.get(
+            resource_group, vm_name
             )
 
         except Exception as e:
@@ -52,7 +49,7 @@ class VMSecurityScanner:
 
         if (hasattr(vm.os_profile, 'linux_configuration') and 
             vm.os_profile.linux_configuration and 
-            vm.os_profile.linux_configuration.disable_password_authentication)
+            vm.os_profile.linux_configuration.disable_password_authentication):
             results["checks"].append({
                 "check": "Password Authentication",
                 "status": "Pass",
@@ -65,40 +62,40 @@ class VMSecurityScanner:
         else:
 
 
-            results["cehecks"].append{{
-                "check": "SSh Authentication"
-                    "status": "FAIL",
-                "detail": "No SSH kes found",
+            results["cehecks"].append({
+                "check": "SSh Authentication",
+                "status": "FAIL",
+                "details": "No SSH kes found",
                 "points": 0
-            }}
+            })
 
         if (vm.storage_profile and 
             vm.storage_profile.os_disk and 
-            'Premium' in vm.storage_profile.os_disk.managed_disk.storage_account_type)
+            'Premium' in vm.storage_profile.os_disk.managed_disk.storage_account_type):
 
             
 
             results["checks"].append({
-                "check" "Disk Encryption",
+            "check": "Disk Encryption",
                 "status": "Pass",
-                "detial": "Premium SSG with encryption",
+                "details": "Premium SSG with encryption",
                 "points": 20 
             })
-
+            results["security_score"] += 20
         else:
-            results["checks"].appead([
-            "check": "Disk Encryption"
-            "status": "Partial",
-            "detail": "Standard storage (basic encryption)",
-            "ponts": 10
-            ])
+            results["checks"].append ({
+                "check": "Disk Encryption",
+                "status": "Partial",
+                "details": "Standard storage (basic encryption)",
+                "ponts": 10
+            })
             
             results["security_score"] += 10
 
-        results["checks"].appead({
-            "checks": "Network Secuirty",
+        results["checks"].append ({
+            "check": "Network Secuirty",
             "status": "Pass",
-            "detail":m "Network security group configured",
+            "details": "Network security group configured",
             "points": 30
         })
 
@@ -109,7 +106,7 @@ class VMSecurityScanner:
 
 
     def generate_report(self, results):
-        ""'Print formatted security report"""
+        """Print formatted security report"""
         
         print("\n" + "="*60)
 
@@ -121,11 +118,63 @@ class VMSecurityScanner:
 
         print(f"Security Score: {results['security_score']}\{results['max_score']}")
 
-
-
-
+ 
+        score_pct = (results['security_score'] / results['max_score']) * 100
+        if score_pct >=90:
+            status = "Excellent - Production Ready"
+        elif score_pct >= 75:
+            status ="Good - Minor Improvemnt sneeded"
+        elif score_pct >= 60:
+            status = "Fair -security gaps exists"
+        else:
+            status = "Poor - Critical secuirty issues"
         
 
+        print(f"Overall Status: {status}")
+        print(f"Compliance: {score_pct:.1f}")
 
+        print(f"\nDetailed Resultts:")
+        for check in results['checks']:
+            print(f" {check['check']} {check['check']}")
+            print(f" {check['details']} ({check['points']} points)")
+
+        print("+"*60 + "\n")
+
+
+def get_subscription_id():
+        """Get current Azure subscription ID"""
+        try:
+            result = subprocess.run(
+                'az account show --query id -o tsv',
+                shell=True,
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            return result.stdout.strip()
+        except subprocess.CalledProcessError:
+            print("Error: Please run 'az login' first")
+            sys.exit(1)
+
+if __name__ == "__main__":
+ if len(sys.argv) != 3:
+    print("Usage: python3 security-scanner.py <resource_group> <vm_name>")
+    print("\nExample:")
+    print(" python3 security-scanner.py rg-secure-vm-abc123 vm secure-abc123")
+    sys.ecit(1)
+
+ resource_group = sys.argv[1]
+ vm_name = sys.argv[2]
+
+
+ print("Authenticating with Azure.. ")
+ subscription_id = get_subscription_id()
+ print(f"Using subscription: {subscription_id[:8]}...\n")
+
+
+ scanner = VMSecurityScanner(subscription_id)
+ results = scanner.scan_vm_security(resource_group, vm_name)
+ scanner.generate_report(results)
+        
 
 
