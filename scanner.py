@@ -123,7 +123,7 @@ class VMSecurityScanner:
         if score_pct >=90:
             status = "Excellent - Production Ready"
         elif score_pct >= 75:
-            status ="Good - Minor Improvemnt sneeded"
+            status ="Good - Minor Improvemnt needed"
         elif score_pct >= 60:
             status = "Fair -security gaps exists"
         else:
