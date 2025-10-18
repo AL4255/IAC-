@@ -1,4 +1,4 @@
-# Azure VM Infrastructure 
+# Azure VM Infrastructure
 
 Simple Infrastructure as Code for creating Azure Virtual Machines.
 
