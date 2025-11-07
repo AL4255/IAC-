@@ -3,7 +3,7 @@
 Simple Infrastructure as Code for creating Azure Virtual Machines.
 
 ## What This Creates
- 
+
 - Virtual Machine with customizable size
 - Virtual Network and Subnet
 - Network Security Group with basic rules
